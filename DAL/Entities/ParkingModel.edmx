@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SampleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="estancia">
+          <Key>
+            <PropertyRef Name="id_vehiculo" />
+            <PropertyRef Name="fecha_entrada" />
+          </Key>
+          <Property Name="id_vehiculo" Type="int" Nullable="false" />
+          <Property Name="fecha_entrada" Type="datetime" Nullable="false" />
+          <Property Name="fecha_salida" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tipo_vehiculo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigo" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="precio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vehiculo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="matricula" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="id_tipo_vehiculo" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_estancia_vehiculo">
+          <End Role="vehiculo" Type="Self.vehiculo" Multiplicity="1" />
+          <End Role="estancia" Type="Self.estancia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vehiculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="estancia">
+              <PropertyRef Name="id_vehiculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_vehiculo_tipo_vehiculo">
+          <End Role="tipo_vehiculo" Type="Self.tipo_vehiculo" Multiplicity="1" />
+          <End Role="vehiculo" Type="Self.vehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_vehiculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="vehiculo">
+              <PropertyRef Name="id_tipo_vehiculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SampleModelStoreContainer">
+          <EntitySet Name="estancia" EntityType="Self.estancia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tipo_vehiculo" EntityType="Self.tipo_vehiculo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vehiculo" EntityType="Self.vehiculo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_estancia_vehiculo" Association="Self.FK_estancia_vehiculo">
+            <End Role="vehiculo" EntitySet="vehiculo" />
+            <End Role="estancia" EntitySet="estancia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_vehiculo_tipo_vehiculo" Association="Self.FK_vehiculo_tipo_vehiculo">
+            <End Role="tipo_vehiculo" EntitySet="tipo_vehiculo" />
+            <End Role="vehiculo" EntitySet="vehiculo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SampleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="estancia">
+          <Key>
+            <PropertyRef Name="id_vehiculo" />
+            <PropertyRef Name="fecha_entrada" />
+          </Key>
+          <Property Name="id_vehiculo" Type="Int32" Nullable="false" />
+          <Property Name="fecha_entrada" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fecha_salida" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="vehiculo" Relationship="Self.FK_estancia_vehiculo" FromRole="estancia" ToRole="vehiculo" />
+        </EntityType>
+        <EntityType Name="tipo_vehiculo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigo" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="precio" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="vehiculo" Relationship="Self.FK_vehiculo_tipo_vehiculo" FromRole="tipo_vehiculo" ToRole="vehiculo" />
+        </EntityType>
+        <EntityType Name="vehiculo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="matricula" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_tipo_vehiculo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="estancia" Relationship="Self.FK_estancia_vehiculo" FromRole="vehiculo" ToRole="estancia" />
+          <NavigationProperty Name="tipo_vehiculo" Relationship="Self.FK_vehiculo_tipo_vehiculo" FromRole="vehiculo" ToRole="tipo_vehiculo" />
+        </EntityType>
+        <Association Name="FK_estancia_vehiculo">
+          <End Role="vehiculo" Type="Self.vehiculo" Multiplicity="1" />
+          <End Role="estancia" Type="Self.estancia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vehiculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="estancia">
+              <PropertyRef Name="id_vehiculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_vehiculo_tipo_vehiculo">
+          <End Role="tipo_vehiculo" Type="Self.tipo_vehiculo" Multiplicity="1" />
+          <End Role="vehiculo" Type="Self.vehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_vehiculo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="vehiculo">
+              <PropertyRef Name="id_tipo_vehiculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ParkingContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="estancia" EntityType="Self.estancia" />
+          <EntitySet Name="tipo_vehiculo" EntityType="Self.tipo_vehiculo" />
+          <EntitySet Name="vehiculo" EntityType="Self.vehiculo" />
+          <AssociationSet Name="FK_estancia_vehiculo" Association="Self.FK_estancia_vehiculo">
+            <End Role="vehiculo" EntitySet="vehiculo" />
+            <End Role="estancia" EntitySet="estancia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_vehiculo_tipo_vehiculo" Association="Self.FK_vehiculo_tipo_vehiculo">
+            <End Role="tipo_vehiculo" EntitySet="tipo_vehiculo" />
+            <End Role="vehiculo" EntitySet="vehiculo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SampleModelStoreContainer" CdmEntityContainer="ParkingContext">
+          <EntitySetMapping Name="estancia">
+            <EntityTypeMapping TypeName="SampleModel.estancia">
+              <MappingFragment StoreEntitySet="estancia">
+                <ScalarProperty Name="id_vehiculo" ColumnName="id_vehiculo" />
+                <ScalarProperty Name="fecha_entrada" ColumnName="fecha_entrada" />
+                <ScalarProperty Name="fecha_salida" ColumnName="fecha_salida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tipo_vehiculo">
+            <EntityTypeMapping TypeName="SampleModel.tipo_vehiculo">
+              <MappingFragment StoreEntitySet="tipo_vehiculo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vehiculo">
+            <EntityTypeMapping TypeName="SampleModel.vehiculo">
+              <MappingFragment StoreEntitySet="vehiculo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="matricula" ColumnName="matricula" />
+                <ScalarProperty Name="id_tipo_vehiculo" ColumnName="id_tipo_vehiculo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
