@@ -262,6 +262,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ParkingModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Partials\ParkingContext.cs" />
     <Compile Include="Entities\tipo_vehiculo.cs">
       <DependentUpon>ParkingModel.tt</DependentUpon>
     </Compile>
@@ -276,11 +277,6 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="SampleDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SampleDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Shared\Extensiones.cs" />
     <Compile Include="Estancia\RegistrarEntrada.cs" />
@@ -300,17 +296,6 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="SampleDataSet.xsc">
-      <DependentUpon>SampleDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="SampleDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>SampleDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="SampleDataSet.xss">
-      <DependentUpon>SampleDataSet.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -334,7 +319,6 @@
       <Name>MODELS</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Entities\ParkingModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -345,13 +329,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ParkingModel.edmx</DependentUpon>
       <LastGenOutput>ParkingModel.cs</LastGenOutput>
-    </Content>
-    <Content Include="Sample.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sample_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>Sample.mdf</DependentUpon>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
